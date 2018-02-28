@@ -1,5 +1,6 @@
 language: node_js
 node_js: stable
+os: osx
 
 branches:
     only:
@@ -8,6 +9,9 @@ branches:
 cache:
   directories:
     - node_modules
+
+before_install:
+    brew install libtool automake autoconf nasm
 
 install:
     - npm install
