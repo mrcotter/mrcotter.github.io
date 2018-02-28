@@ -11,7 +11,7 @@ cache:
     - node_modules
 
 before_install:
-    brew install libtool automake autoconf nasm
+    brew install nasm
 
 install:
     - npm install
