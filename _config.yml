@@ -124,30 +124,3 @@ markdown_it_plus:
   typographer:
   quotes: “”‘’
 
-# All-minifier Config
-all_minifier: true
-js_concator:
-  enable: false
-  bundle_path: '/js/bundle.js'
-  front: false
-  silent: false
-html_minifier:
-  enable: true
-  ignore_error: false
-  silent: false
-  exclude:
-css_minifier:
-  enable: true
-  silent: false
-  exclude: 
-    - '*.min.css'
-js_minifier:
-  enable: true
-  mangle: false
-  silent: false
-  output:
-  compress:
-  exclude: 
-    - '*.min.js'
-image_minifier:
-  enable: false
