@@ -113,14 +113,3 @@ nofollow:
     - www.kris2d.info
     - crypto.kris2d.info
 
-# Markdown-it-plus Config
-markdown_it_plus:
-  highlight: true
-  html: true
-  xhtmlOut: true
-  breaks: true
-  langPrefix:
-  linkify: true
-  typographer:
-  quotes: “”‘’
-
