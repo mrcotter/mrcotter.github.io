@@ -13,8 +13,8 @@ install:
     - npm install
 
 before_script:
-    - git config user.name "Kris Cotter"
-    - git config user.email "mrcotter2013@gmail.com"
+    - git config --global user.name "Kris Cotter"
+    - git config --global user.email "mrcotter2013@gmail.com"
     - sed -i '' "s/__Travis_Token__/${Travis_Token}/" _config.yml
 
 script:
