@@ -6,6 +6,9 @@ branches:
     only:
         - raw
 
+before_install:
+    - export TZ=Australia/Sydney
+
 install:
     - npm install
 
