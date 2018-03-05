@@ -343,7 +343,7 @@ livere_uid: MTAyMC8yOTk2Ny82NTMy
 #duoshuo_share: true
 
 #Share
-sharesdk: true
+sharesdk: false
 shareSDKappkey: 1ff05cf03c2ae
 
 # Google Webmaster tools verification setting
