@@ -38,11 +38,11 @@ Cryptocurrency Market 是基于 Angular 5 框架开发的 Web App，用于显示
 * 价格走势图使用 `Chart.js` 绘制，根据需求进行了许多自定义修改，例如增加了伴随鼠标移动的纵向线，增加了图标数据的可读性，手机端纵向线也会随着手指的触摸左右移动，美观上还有待改善；
 * 针对移动端做了显示优化，包括最新的 iPhone X。
 
-![Cryptocurrency Market](https://user-images.githubusercontent.com/5259084/36769625-8ea94e84-1c99-11e8-8bb6-4c2e5a8be43f.png)
+![Cryptocurrency Market](https://user-images.githubusercontent.com/5259084/37133234-2f08308c-22e6-11e8-8c31-ea321f825ae6.png)
 
-![Cryptocurrency Market](https://user-images.githubusercontent.com/5259084/36769628-9364c48a-1c99-11e8-8355-78b2d842afa0.png)
+![Cryptocurrency Market](https://user-images.githubusercontent.com/5259084/37133243-383f6760-22e6-11e8-850c-863b2e912cd7.png)
 
-![Cryptocurrency Market](https://user-images.githubusercontent.com/5259084/36769631-9557d5de-1c99-11e8-8a8d-7f362244665c.jpg)
+![Cryptocurrency Market](https://user-images.githubusercontent.com/5259084/37133247-3e5bab72-22e6-11e8-8df3-ec6d9a82257b.jpg)
 
 ### 使用
 
