@@ -120,9 +120,9 @@ sudo apt-get install python-certbot-nginx
 sudo certbot --nginx -d crypto.kris2d.info
 ```
 
-按照提示同意条款并输入邮箱地址，最后的提示 Redirect 自动配置可以随便选择，之后会修改。完成后，记录好证书和 conf 文件的位置，默认情况下，证书位于 `/etc/letsencrypt/` 目录中。
+按照提示同意条款并输入邮箱地址，最后的提示 Redirect 自动配置可以随意选择，之后会修改。完成后，记录好证书和 conf 文件的位置，默认情况下，证书位于 `/etc/letsencrypt/` 目录中。
 
-### Nginx 反向代理配合 Angular 5
+### Nginx 反向代理部署 Angular 5
 
 目前 App 是运行在 http-server 上的，由 Nginx 作反向代理，完整的站点配置如下：
 
@@ -222,9 +222,3 @@ ssl_ciphers "ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECD
 ![https-server-test](https://user-images.githubusercontent.com/5259084/37555243-8dc99f12-2a38-11e8-9732-16079629f619.png)
 
 使用 Nginx 直接走 HTTP 代理部署 Angular 5 App 很简单，而使用其进行反向代理在配置的时候遇到了不少问题，最终查阅了不少资料才找到解决方法。希望我的这篇文章对大家有所帮助，那么下次见，Peace！
-
-
-
-
-
-
