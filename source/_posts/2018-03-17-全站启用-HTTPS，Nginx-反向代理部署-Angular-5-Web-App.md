@@ -221,4 +221,4 @@ ssl_ciphers "ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECD
 
 ![https-server-test](https://user-images.githubusercontent.com/5259084/37555243-8dc99f12-2a38-11e8-9732-16079629f619.png)
 
-使用 Nginx 直接走 HTTP 代理部署 Angular 5 App 很简单，而使用其进行反向代理在配置的时候遇到了不少问题，最终查阅了不少资料才找到解决方法。希望我的这篇文章对大家有所帮助，那么下次见，Peace！
+使用 Nginx 直接走 HTTP 代理部署 Angular 5 App 很简单，而使用其进行反向代理在配置的时候遇到了很多问题，最终查阅了不少资料才找到解决方法。希望我的这篇文章对大家有所帮助，那么下次见，Peace！
