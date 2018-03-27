@@ -50,7 +50,7 @@ menu:
   #categories: /categories/
   #about: /about/
   programming: /categories/programming/
-  creatives: /categories/creatives/
+  fun: /categories/fun/
   dailylife: /categories/dailylife/
   #tags: /tags/
   archives: /archives/
@@ -74,7 +74,7 @@ menu_icons:
   sitemap: sitemap
   commonweal: heartbeat
   programming: code
-  creatives: eye
+  fun: eye
   dailylife: camera-retro
 
 # ---------------------------------------------------------------

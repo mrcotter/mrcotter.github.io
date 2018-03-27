@@ -1,6 +1,6 @@
 ---
 title: 在 Minecraft 中创造世界 - 来自 NLT 小组的作品
-categories: 创意集
+categories: 好玩
 tags:
   - Minecraft
   - 游戏

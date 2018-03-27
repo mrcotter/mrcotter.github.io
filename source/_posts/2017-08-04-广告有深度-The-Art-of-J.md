@@ -1,6 +1,6 @@
 ---
 title: 广告有深度 - The Art of J
-categories: 创意集
+categories: 好玩
 tags:
   - 广告
   - 日本
