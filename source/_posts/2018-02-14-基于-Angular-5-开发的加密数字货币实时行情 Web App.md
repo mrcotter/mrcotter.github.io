@@ -20,23 +20,25 @@ date: 2018-02-14 21:05:50
 
 ### 简单介绍
 
-Cryptocurrency Market 是基于 Angular 5 框架开发的 Web App，用于显示热门加密数字货币的实时行情和历史价格走势。目前暂时支持 10 种货币，可以获取并更新实时价格信息，数据来源 [CryptoCompare](https://www.cryptocompare.com/api/)。点击每一种货币可以进一步浏览最近 24h、7 天、1 个月以及 1 年的价格走势，后续会增加更多的币种和排序功能。
+Cryptocurrency Market 是基于 Angular 5 框架开发的 Progressive Web App，用于显示热门加密数字货币的实时行情和历史价格走势。目前支持 60 种货币，可以获取并更新实时价格信息，数据来源 [CryptoCompare](https://www.cryptocompare.com/api/)。点击每一种货币可以进一步浏览最近 24h、7 天、1 个月以及 1 年的价格走势，后续会增加更多的币种和排序功能。
 
 ### 平台环境
 
-* [Angular 5.2.6](https://angular.io/)
-* [Angular-Cli 1.7.1](https://github.com/angular/angular-cli)
-* [NG-ZORRO 0.6.14](https://ng.ant.design/#/docs/angular/introduce)
-* [Chart.js 2.7.1](http://www.chartjs.org/)
-* [Nginx 1.12.1](https://nginx.org/en/)
+* [Angular 5.2.9](https://angular.io/)
+* [Angular-Cli 1.7.4](https://github.com/angular/angular-cli)
+* [NG-ZORRO 0.6.15](https://ng.ant.design/#/docs/angular/introduce)
+* [Chart.js 2.7.2](http://www.chartjs.org/)
+* [Nginx 1.12.2](https://nginx.org/en/)
 
 ### 特性
 
-* 纯前端开发，无后端代码，服务器上只有 nginx 做为 http server；
+* 纯前端开发，无后端代码；
+* 服务器采用 Nginx 作 Reverse Proxy，http-server 和 PM2 用于设置不间断运行的静态服务器；
 * 应用了 `Ant Design` 简化了部分视觉代码，视觉风格上保持统一；
 * 每 15 秒获取最新的价格数据，如果价格产生变化，根据涨跌情况渲染不同颜色的背景色作为提示（具体的效果个人感觉没有很流畅，后续进行完善）；
 * 价格走势图使用 `Chart.js` 绘制，根据需求进行了许多自定义修改，例如增加了伴随鼠标移动的纵向线，增加了图标数据的可读性，手机端纵向线也会随着手指的触摸左右移动，美观上还有待改善；
-* 针对移动端做了显示优化，包括最新的 iPhone X。
+* 针对移动端做了显示优化，包括最新的 iPhone X;
+* 支持 Google 的 Progressive Web Apps 特性，可以添加到 Andorid 手机的桌面或者 Chrome 浏览器的 Apps 页面中。
 
 ![Cryptocurrency Market](https://user-images.githubusercontent.com/5259084/37133234-2f08308c-22e6-11e8-8c31-ea321f825ae6.png)
 
@@ -68,6 +70,11 @@ Cryptocurrency Market 是基于 Angular 5 框架开发的 Web App，用于显示
 * 增加数字货币总量到 60，以后有需要再增加，常用的基本都有了；
 * 增加了查找和排序功能，可以切换每页显示的货币数量，默认 20/page；
 * 为了偷懒，集成了 Travis CI 进行自动化 build 和 deployment。
+
+### 05/04/2018 再次更新
+
+* 增加 Progressive Web Apps 特性，可以将 App 添加至 Android 手机桌面直接运行（需配合使用 Chrome，浏览页面时会有提示信息）；
+* 完善多平台多系统的图标及配置信息，例如支持 iPhone、Android 及 Windows 等操作系统，也支持 TouchBar 和 Windows Tile 图标显示。
 
 ### 后话
 
