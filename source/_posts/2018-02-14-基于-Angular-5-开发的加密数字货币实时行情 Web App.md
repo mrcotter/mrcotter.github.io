@@ -38,7 +38,7 @@ Cryptocurrency Market 是基于 Angular 5 框架开发的 Progressive Web App，
 * 每 15 秒获取最新的价格数据，如果价格产生变化，根据涨跌情况渲染不同颜色的背景色作为提示（具体的效果个人感觉没有很流畅，后续进行完善）；
 * 价格走势图使用 `Chart.js` 绘制，根据需求进行了许多自定义修改，例如增加了伴随鼠标移动的纵向线，增加了图标数据的可读性，手机端纵向线也会随着手指的触摸左右移动，美观上还有待改善；
 * 针对移动端做了显示优化，包括最新的 iPhone X;
-* 支持 Google 的 Progressive Web Apps 特性，可以添加到 Andorid 手机的桌面或者 Chrome 浏览器的 Apps 页面中。
+* 支持 Google 的 Progressive Web Apps 特性，可以添加到 iOS 和 Andorid 手机桌面或者 Chrome 浏览器的 Apps 页面中。
 
 ![Cryptocurrency Market](https://user-images.githubusercontent.com/5259084/37133234-2f08308c-22e6-11e8-8c31-ea321f825ae6.png)
 
