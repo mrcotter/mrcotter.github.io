@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="google-site-verification" content="JdonAkPh3dJdiWyTXygVNfJf6SW-LKf7JrXvYxclVas">
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="YwfklQKe2k">
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="HEVC,FFmpeg,Homebrew,视频转码,x264,x265,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="如今较为常见的视频封装格式有 mp4 和 mkv 等， 内部的视频编码格式从前几年盛行的 H.264/x264 逐渐开始向新一代的 HEVC/x265（High Efficiency Video Coding 高效视频编码）过渡，而常见的音频编码格式无非 AC3、DTS 或者 AAC 等。无论是借助带有 GUI 的编码软件，还是使用命令行，FFmpeg 是最为广泛使用的工具，理论上 FFmpeg">
+<meta name="keywords" content="HEVC,FFmpeg,Homebrew,视频转码,x264,x265">
+<meta property="og:type" content="article">
+<meta property="og:title" content="macOS 下 FFmpeg 视频转码入门及进阶使用教程">
+<meta property="og:url" content="http://kris2d.info/posts/a7465832/index.html">
+<meta property="og:site_name" content="Kris2D 博客小站">
+<meta property="og:description" content="如今较为常见的视频封装格式有 mp4 和 mkv 等， 内部的视频编码格式从前几年盛行的 H.264/x264 逐渐开始向新一代的 HEVC/x265（High Efficiency Video Coding 高效视频编码）过渡，而常见的音频编码格式无非 AC3、DTS 或者 AAC 等。无论是借助带有 GUI 的编码软件，还是使用命令行，FFmpeg 是最为广泛使用的工具，理论上 FFmpeg">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-14T16:23:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="macOS 下 FFmpeg 视频转码入门及进阶使用教程">
+<meta name="twitter:description" content="如今较为常见的视频封装格式有 mp4 和 mkv 等， 内部的视频编码格式从前几年盛行的 H.264/x264 逐渐开始向新一代的 HEVC/x265（High Efficiency Video Coding 高效视频编码）过渡，而常见的音频编码格式无非 AC3、DTS 或者 AAC 等。无论是借助带有 GUI 的编码软件，还是使用命令行，FFmpeg 是最为广泛使用的工具，理论上 FFmpeg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://kris2d.info/posts/a7465832/">
+
+
+
+
+
+  <title>macOS 下 FFmpeg 视频转码入门及进阶使用教程 | Kris2D 博客小站</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-103790644-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="site-title">Kris2D 博客小站</span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Life Spectator 生活的旁观者</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-programming">
+          <a href="/categories/programming/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-code"></i> <br>
+            
+            程序猿
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-fun">
+          <a href="/categories/fun/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-eye"></i> <br>
+            
+            好玩
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-dailylife">
+          <a href="/categories/dailylife/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-camera-retro"></i> <br>
+            
+            碎碎念
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://kris2d.info/posts/a7465832/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kris">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kris2D 博客小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">macOS 下 FFmpeg 视频转码入门及进阶使用教程</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-24T18:26:35+11:00">
+                2018-02-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/programming/" itemprop="url" rel="index">
+                    <span itemprop="name">程序猿</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>如今较为常见的视频封装格式有 mp4 和 mkv 等， 内部的视频编码格式从前几年盛行的 <code>H.264/x264</code> 逐渐开始向新一代的 <code>HEVC/x265</code>（High Efficiency Video Coding 高效视频编码）过渡，而常见的音频编码格式无非 AC3、DTS 或者 AAC 等。无论是借助带有 GUI 的编码软件，还是使用命令行，<a href="http://ffmpeg.org/" rel="external nofollow noopener noreferrer" target="_blank">FFmpeg</a> 是最为广泛使用的工具，理论上 FFmpeg 支持各个平台，包括 Windows、macOS、iOS 以及 Android 等，这里只介绍在 macOS 下的使用。通过简单的命令，你可以大致了解 FFmpeg 在视频转换上的强大之处，视频编码部分也集中在 x264、x265，以及如何压制 macOS High Sierra 和 iOS 11 可以正确识别并生成缩略图的 HEVC 10bit 视频。文章最后，也会用一个较为复杂的例子，应用 <code>-filter_complex</code> 进行视频帧率的插值运算、嵌入 pgs 图形字幕，以及最后输出 HEVC 编码进行说明。</p>
+<a id="more"></a>
+<hr>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>如果有看过我以前文章的朋友，可能会注意到使用 <a href="https://brew.sh/" rel="external nofollow noopener noreferrer" target="_blank">Homebrew</a> 编译 <a href="https://mpv.io/" rel="external nofollow noopener noreferrer" target="_blank">mpv</a> 的一个重要依赖就是 FFmpeg。不过，如果将其用作视频转码，默认编译的 FFmpeg 会缺少一部分组件，因此这里可能需要重新安装 FFmpeg。以我个人编译版本为例，使用 <code>--HEAD</code> 来配合最新的 mpv，在 Terminal 中输入如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install ffmpeg --HEAD --with-fdk-aac --with-sdl2 --with-freetype --with-libass --with-libbluray --with-libvorbis --with-libvpx --with-opus --with-webp --with-x265</span><br></pre></td></tr></table></figure>
+<p>等待安装结束即可。</p>
+<h3 id="基础篇"><a href="#基础篇" class="headerlink" title="基础篇"></a>基础篇</h3><h4 id="压制-x264-编码视频文件"><a href="#压制-x264-编码视频文件" class="headerlink" title="压制 x264 编码视频文件"></a>压制 x264 编码视频文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input.mp4 -c:a libfdk_aac -c:v libx264 -crf 20 -preset slow output.mp4</span><br></pre></td></tr></table></figure>
+<p>使用 FFmpeg 编码的基本规则， <code>-i</code> 之后的文件为输入的视频文件，即 input.mp4，支持的格式众多，例如 mkv、flv、vob 等等，文件可以包含目录，使用 macOS 的文件拖拽功能很方便。output.mp4 即为输出文件，文件名可自定义，视频封装格式建议对应编码格式，不应将 mpeg-2 或者 vp8 编码的视频也封装为 mp4。<code>-c:a</code> 之后表示输出文件的音频编码器，一般 mp4 常用的音频编码为 AAC-LC，按照官方 Wiki 指南，建议使用编码器 <code>libfdk_aac</code> 而不是 <code>aac</code>，<code>libfdk_aac</code> 音质更好，这也是为什么在前文中编译 FFmpeg 增加 <code>--with-fdk-aac</code> 的原因。<code>-c:v</code> 之后代表输出文件的视频编码器，使用 <code>libx264</code> 即可压制 x264 编码的视频流。<code>-crf 20</code> 代表视频编码的码率系数，数字越大，压制的效果越差，建议选择范围在 <code>16 - 28</code>，压制高质量的视频建议取值 20 以下。<code>-preset slow</code> 代表一组控制压缩时间和文件大小的参数选择，一般常选 <code>fast</code>、<code>medium</code> 和 <code>slow</code>。</p>
+<p>以上都是基于 one-pass 压制，如果需要严格控制码率则需要使用 two-pass，更详细的介绍，可以参考 <a href="https://trac.ffmpeg.org/wiki/Encode/H.264" rel="external nofollow noopener noreferrer" target="_blank">Encode / H.264</a>。</p>
+<h4 id="压制-HEVC-10bit-编码视频文件"><a href="#压制-HEVC-10bit-编码视频文件" class="headerlink" title="压制 HEVC 10bit 编码视频文件"></a>压制 HEVC 10bit 编码视频文件</h4><p>其实 FFmpeg 很早就开始支持 HEVC (x265) 的视频转码，只是一直改动较大，而最近的版本也终于支持编码 macOS High Sierra 下 Quicktime 可以播放，并且在系统中能够正确预览并生成缩略图的视频文件。编码命令的改动很小，添加一个 <code>format tag</code> 参数即可，如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input.mp4 \</span><br><span class="line">       -c:v libx265 -preset medium -crf 18 -pix_fmt yuv420p10le \</span><br><span class="line">       -c:a libfdk_aac -b:a 256k \</span><br><span class="line">       -tag:v hvc1 \</span><br><span class="line">       output_10bit.mp4</span><br></pre></td></tr></table></figure>
+<p>和压制 x264 视频非常类似，主要的不同点在于 <code>-c:v</code> 视频编码器需换为 <code>libx265</code>，并且压制 10bit 需要指定色彩空间，添加 <code>-pix_fmt yuv420p10le</code>。在音频编码参数中，如果增加 <code>-b:a</code>，可以控制音频文件的码率，按需使用。最后，非常重要的一点，必须添加参数 <code>tag:v hvc1</code>，这样输出的 Video Stream 会被标记为 <code>hvc1</code>，可以被 macOS 以及 iOS 11 原生支持播放，否则默认会被标记为 <code>hev1</code>，不被原生支持，第三方播放器播放倒没什么问题。</p>
+<h3 id="进阶篇"><a href="#进阶篇" class="headerlink" title="进阶篇"></a>进阶篇</h3><h4 id="修改视频分辨率"><a href="#修改视频分辨率" class="headerlink" title="修改视频分辨率"></a>修改视频分辨率</h4><p>假如原视频的分辨率为 1920x1080，为了降低文件大小，最简单的办法是将其转压成一个分辨率较低的版本，例如 720p，即 1280x720，那么我们可以使用 <code>scale</code> 视频滤镜来缩放视频：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input.mp4 -vf scale=-2:720 -c:v libx264 -crf 20 -preset slow -c:a copy output.mp4</span><br></pre></td></tr></table></figure>
+<p><code>-vf scale=-2:720</code> 会自动计算对应的横向分辨率（需为 2 的倍数，因此为 -2），源文件音频编码保持不变，因此设为 <code>copy</code> 即可。特殊情况下，遇到源文件视频比例错误，除了修改分辨率数值，还需要设置 <code>dar</code> 参数，例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input.avi -vf scale=722x406,setdar=16/9 -c:v libx264 -c:a libfdk_aac -preset slow -crf 20 output.mp4</span><br></pre></td></tr></table></figure>
+<p>另外，绝对不建议增大分辨率，因为毫无意义，受限于原视频的视频质量，增大分辨率除了体积增大，画质只会更差。</p>
+<h4 id="反交错（Deinterlace）"><a href="#反交错（Deinterlace）" class="headerlink" title="反交错（Deinterlace）"></a>反交错（Deinterlace）</h4><p>偶尔我会遇到一些早期使用 VCD/DVD 时代编码的视频，其中一个重要的特点就是隔行扫描，而直接转码的结果就是视频中快速运动的物体都能看到非常明显的扫描线。解决办法同样需要应用 <code>vf</code> 视频滤镜中的 <code>yadif</code> 来进行反交错，如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input.vob -vf yadif -c:v libx264 -preset slow -crf 20 -c:a libfdk_aac -b:a 256k output.mp4</span><br></pre></td></tr></table></figure>
+<p>如果压制出来的效果不佳（还是有扫描线），可以尝试将 <code>vf</code> 的部分改为 <code>-vf yadif=1:-1:0,mcdeint=2:1:10</code>。</p>
+<h4 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h4><p>需要将原视频进行旋转，同样可以应用视频滤镜来达到目的，如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input.mov -vf <span class="string">"transpose=1"</span> -c:a copy output.mov</span><br></pre></td></tr></table></figure>
+<p>其中，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0 = 90 Counter Clockwise and Vertical Flip  (default) </span><br><span class="line">1 = 90 Clockwise </span><br><span class="line">2 = 90 Counter Clockwise </span><br><span class="line">3 = 90 Clockwise and Vertical Flip</span><br></pre></td></tr></table></figure>
+<p>如果想要 180 度翻转视频，则需要改为 <code>-vf &quot;transpose=2,transpose=2&quot;</code>。值得注意的是，旋转视频意味着对视频进行重编码，输出质量会稍微受到影响，可以添加 <code>crf</code> 参数控制视频输出质量，音频部分可以使用 <code>copy</code>。</p>
+<h3 id="一个复杂的“栗子”"><a href="#一个复杂的“栗子”" class="headerlink" title="一个复杂的“栗子”"></a>一个复杂的“栗子”</h3><p>最后的这个例子，是我最近遇到的一个视频，简要的编码信息如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input #0, matroska,webm, from &apos;Input.mkv&apos;:</span><br><span class="line">    Duration: 00:23:55.97, start: 0.000000, bitrate: 16372 kb/s</span><br><span class="line">    Stream #0:0: Video: hevc (Main 10), yuv420p10le(tv, bt709), 1920x1080, SAR 1:1 DAR 16:9, 59.94 fps, 59.94 tbr, 1k tbn, 59.94 tbc (default)</span><br><span class="line">    Stream #0:1(jpn): Audio: flac, 48000 Hz, stereo, s32 (24 bit) (default)</span><br><span class="line">    Stream #0:2(jpn): Audio: flac, 48000 Hz, stereo, s32 (24 bit)</span><br><span class="line">    Stream #0:3(chi): Subtitle: hdmv_pgs_subtitle (default)</span><br><span class="line">    Stream #0:4(chi): Subtitle: hdmv_pgs_subtitle</span><br></pre></td></tr></table></figure>
+<p>可以看到，这是一个 HEVC 10bit 编码，分辨率 1080p，帧率 59.94 fps 的视频文件，带有两条 flac 编码的音轨，另有两条是 pgs 格式的图形字幕。我自己的 Macbook Pro 已经无法完全流畅地播放这个视频了，除了 HEVC 带来的巨大计算量，高帧率也是一个麻烦，可惜网上没有其它好的片源，因此，我只有自己尝试压缩。目标：维持分辨率但帧率减半，即降为 29. 97 fps，音轨只需要第一条，并且重编码为 AAC-LC，原片为日语，因此必须带有字幕，图形字幕直接嵌入视频，最后以 HEVC 10bit 重编码，少许降低码率。</p>
+<p>改变帧率普遍会使用 <code>-vf fps=fps=29.97</code> 这类的参数，但自己尝试后发现一个问题，视频观看的感觉有跳跃性，不流畅，很像是丢帧的感觉。因为将帧率减半，意味着有一半的信息都丢弃了，而普通降低帧率的算法只有简单的插值运算甚至完全没有，造成了视频不连贯的效果。因此，改变帧率正确的做法是进行运动插值运算（Motion Interpolation），此法既可用在提高帧率上，也可以用于降低帧率，最终的结果都是提高视频播放的流畅度。这里会使用 <code>-filter_complex</code> 代替 <code>vf</code>，联合应用 <code>minterpolate</code>、<code>overlay</code> 以及 <code>map</code> 来解决帧率、嵌入视频，和保留一条音轨的问题。压制命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input.mkv \</span><br><span class="line">-filter_complex <span class="string">"[0:v]minterpolate='fps=29.97:mi_mode=mci:me_mode=bidir:mc_mode=aobmc:vsbmc=1'[bg],[bg][0:s:0]overlay[v]"</span> -map <span class="string">"[v]"</span> -map 0:a:0 \</span><br><span class="line">-c:v libx265 -preset medium -crf 18 -pix_fmt yuv420p10le \</span><br><span class="line">-c:a libfdk_aac -b:a 256k \</span><br><span class="line">-tag:v hvc1 \</span><br><span class="line">output_10bit.mp4</span><br></pre></td></tr></table></figure>
+<p>这里看起来会很复杂，实际上 <code>-filter_complex</code> 的工作模式就像是 pipe，<code>[0:v]</code> 表示输入文件的视频流，对应 Stream #0:0。从 <code>minterpolate</code> 到 <code>vsbmc=1</code> 都是插补滤镜的设置参数，具体的作用可以查看<a href="http://ffmpeg.org/ffmpeg-filters.html#toc-minterpolate" rel="external nofollow noopener noreferrer" target="_blank">官方文档</a>。<code>[bg]</code>代表该滤镜输出后的视频流，并传递给下一个滤镜 <code>overlay</code>。<code>[0:s:0]</code>表示输入文件的第一个字幕通道，对应 Stream #0:3，所以如果是 <code>[0:s:1]</code> 则对应 Stream #0:4。 <code>overlay</code> 就会将该图形字幕嵌入到视频中，然后输出为 <code>[v]</code>，进行 mapping。视频取处理后的 <code>[v]</code>，音频取原输入文件的第一个音频通道，<code>[0:a:0]</code> 即代表 Stream #0:1。最后和此前压制视频的参数就一模一样了，压制为 HEVC 10bit 编码的视频文件。</p>
+<p>需要注意的是，运动插值运算非常耗时，CPU 占用确不高，应该是 <code>minterpolate</code> 滤镜只能调用单核的缘故。在我的电脑上， 此 23 分钟左右的视频压制一次耗时约 20 小时，请谨慎使用。</p>
+<p>好了，关于 FFmpeg 视频转码和压缩的话题就聊到这里，下次见。Peace！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat_pay.png" alt="Kris WeChat Pay">
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/ali_pay.png" alt="Kris Alipay">
+        </div>
+      
+      <div style="padding: 18px 0 0 0;">生活不止有诗和远方，还应有你的打赏</div>
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Kris
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://kris2d.info/posts/a7465832/" title="macOS 下 FFmpeg 视频转码入门及进阶使用教程">macOS 下 FFmpeg 视频转码入门及进阶使用教程</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow noopener noreferrer" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HEVC/" rel="tag"># HEVC</a>
+          
+            <a href="/tags/FFmpeg/" rel="tag"># FFmpeg</a>
+          
+            <a href="/tags/Homebrew/" rel="tag"># Homebrew</a>
+          
+            <a href="/tags/视频转码/" rel="tag"># 视频转码</a>
+          
+            <a href="/tags/x264/" rel="tag"># x264</a>
+          
+            <a href="/tags/x265/" rel="tag"># x265</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/c4863de1/" rel="next" title="基于 Angular 5 开发的加密数字货币实时行情 Web App">
+                <i class="fa fa-chevron-left"></i> 基于 Angular 5 开发的加密数字货币实时行情 Web App
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/a999230/" rel="prev" title="没有胶卷的随拍 - 2018 悉尼中国新年灯会展">
+                没有胶卷的随拍 - 2018 悉尼中国新年灯会展 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yOTk2Ny82NTMy"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="Kris">
+          <p class="site-author-name" itemprop="name">Kris</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">118</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/mrcotter" target="_blank" title="GitHub" rel="external nofollow noopener noreferrer">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础篇"><span class="nav-number">2.</span> <span class="nav-text">基础篇</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#压制-x264-编码视频文件"><span class="nav-number">2.1.</span> <span class="nav-text">压制 x264 编码视频文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#压制-HEVC-10bit-编码视频文件"><span class="nav-number">2.2.</span> <span class="nav-text">压制 HEVC 10bit 编码视频文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进阶篇"><span class="nav-number">3.</span> <span class="nav-text">进阶篇</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#修改视频分辨率"><span class="nav-number">3.1.</span> <span class="nav-text">修改视频分辨率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#反交错（Deinterlace）"><span class="nav-number">3.2.</span> <span class="nav-text">反交错（Deinterlace）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#旋转视频"><span class="nav-number">3.3.</span> <span class="nav-text">旋转视频</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一个复杂的“栗子”"><span class="nav-number">4.</span> <span class="nav-text">一个复杂的“栗子”</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+        <div class="ads">
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ads-responsive -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2587088802519312" data-ad-slot="5553356381" data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="author" itemprop="copyrightHolder">Kris</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> 强力驱动
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('10');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

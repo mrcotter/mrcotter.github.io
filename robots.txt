@@ -1,0 +1,10 @@
+#hexo robots.txt
+User-agent: *
+Allow: /
+Allow: /archives/
+
+Disallow: /fancybox/
+
+Sitemap: http://kris2d.info/search.xml
+Sitemap: http://kris2d.info/sitemap.xml
+Sitemap: http://kris2d.info/baidusitemap.xml
